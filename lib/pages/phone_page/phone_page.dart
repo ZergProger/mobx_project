@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_project/mobx/register_form.dart';
 import 'package:mobx_project/pages/email_page/email_page.dart';
 
-class RegPage extends StatelessWidget {
+class RegPage extends StatefulWidget {
   RegPage({super.key, RegisterForm? dataValidation})
       : dataValidation = dataValidation ?? RegisterForm();
 
   final RegisterForm dataValidation;
+
+  @override
+  State<RegPage> createState() => _RegPageState();
+}
+
+class _RegPageState extends State<RegPage> with AutomaticKeepAliveClientMixin {
   final TextEditingController controller = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('number'),
@@ -21,20 +32,15 @@ class RegPage extends StatelessWidget {
         key: _formKey,
         child: Column(
           children: <Widget>[
-            TextFormField(
-              controller: controller,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Поле не может быть пустым';
-                } else if (value.length != 10) {
-                  return 'Введите номер телефона';
-                }
-                return null; // Если все ОК, ошибки нет
-              },
-              keyboardType: TextInputType.phone,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
+            Observer(
+              builder: (context) => TextFormField(
+                controller: controller,
+                validator: widget.dataValidation.validatorPhone,
+                keyboardType: TextInputType.phone,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+              ),
             ),
             const SizedBox(
               height: 1,
@@ -42,14 +48,14 @@ class RegPage extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
-                    dataValidation.validator(true);
+                    widget.dataValidation.isValid = true;
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => EmailPage(),
                         ));
                   } else {
-                    dataValidation.validator(false);
+                    widget.dataValidation.isValid = false;
                   }
                 },
                 child: Text('submit'))
@@ -57,5 +63,11 @@ class RegPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
   }
 }

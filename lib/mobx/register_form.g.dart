@@ -72,11 +72,55 @@ mixin _$RegisterForm on _RegisterForm, Store {
   }
 
   @override
-  void validator(bool dataValid) {
+  String? validatorPhone(String? value) {
     final _$actionInfo = _$_RegisterFormActionController.startAction(
-        name: '_RegisterForm.validator');
+        name: '_RegisterForm.validatorPhone');
     try {
-      return super.validator(dataValid);
+      return super.validatorPhone(value);
+    } finally {
+      _$_RegisterFormActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  String? validatorEmail(String? value) {
+    final _$actionInfo = _$_RegisterFormActionController.startAction(
+        name: '_RegisterForm.validatorEmail');
+    try {
+      return super.validatorEmail(value);
+    } finally {
+      _$_RegisterFormActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void onSelectedPopum(String? value) {
+    final _$actionInfo = _$_RegisterFormActionController.startAction(
+        name: '_RegisterForm.onSelectedPopum');
+    try {
+      return super.onSelectedPopum(value);
+    } finally {
+      _$_RegisterFormActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic popupButton(BuildContext context) {
+    final _$actionInfo = _$_RegisterFormActionController.startAction(
+        name: '_RegisterForm.popupButton');
+    try {
+      return super.popupButton(context);
+    } finally {
+      _$_RegisterFormActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void emailButton(BuildContext context, GlobalKey<FormState> formKey) {
+    final _$actionInfo = _$_RegisterFormActionController.startAction(
+        name: '_RegisterForm.emailButton');
+    try {
+      return super.emailButton(context, formKey);
     } finally {
       _$_RegisterFormActionController.endAction(_$actionInfo);
     }

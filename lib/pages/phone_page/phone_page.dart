@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mobx_project/mobx/register_form.dart';
 import 'package:mobx_project/pages/email_page/email_page.dart';
-import 'package:mobx_project/register.dart';
-import 'package:mobx_project/utils/routes_name.dart';
 
 class RegPage extends StatelessWidget {
-  RegPage({super.key});
+  RegPage({super.key, RegisterForm? dataValidation})
+      : dataValidation = dataValidation ?? RegisterForm();
 
-  final Register dataValidation = Register();
+  final RegisterForm dataValidation;
   final TextEditingController controller = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -15,7 +15,7 @@ class RegPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('reg'),
+        title: Text('number'),
       ),
       body: Form(
         key: _formKey,
@@ -36,20 +36,20 @@ class RegPage extends StatelessWidget {
                 FilteringTextInputFormatter.digitsOnly,
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 1,
             ),
             ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
-                    dataValidation.dataValidation();
+                    dataValidation.validator(true);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => EmailPage(),
                         ));
                   } else {
-                    dataValidation.value == false;
+                    dataValidation.validator(false);
                   }
                 },
                 child: Text('submit'))

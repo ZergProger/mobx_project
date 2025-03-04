@@ -7,8 +7,9 @@ import 'package:mobx_project/utils/routes_name.dart';
 class RegPage extends StatelessWidget {
   RegPage({super.key});
 
-  final dataValidation = Register();
+  final Register dataValidation = Register();
   final TextEditingController controller = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +17,19 @@ class RegPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('reg'),
       ),
-      body: Center(
+      body: Form(
+        key: _formKey,
         child: Column(
           children: <Widget>[
             TextFormField(
               controller: controller,
               validator: (value) {
-                if (value == null) {
-                  return 'field is empty';
-                } else if (value.length == 9) {
-                  dataValidation.dataValidation();
+                if (value == null || value.isEmpty) {
+                  return 'Поле не может быть пустым';
+                } else if (value.length != 10) {
+                  return 'Введите номер телефона';
                 }
-                return '';
+                return null; // Если все ОК, ошибки нет
               },
               keyboardType: TextInputType.phone,
               inputFormatters: [
@@ -39,8 +41,15 @@ class RegPage extends StatelessWidget {
             ),
             ElevatedButton(
                 onPressed: () {
-                  if (dataValidation.value == true) {
-                    route(EmailPage);
+                  if (_formKey.currentState?.validate() == true) {
+                    dataValidation.dataValidation();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EmailPage(),
+                        ));
+                  } else {
+                    dataValidation.value == false;
                   }
                 },
                 child: Text('submit'))

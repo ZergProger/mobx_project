@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
+import 'package:mobx_project/pages/email_page/email_page.dart';
 import 'package:mobx_project/pages/popup_page/popup_page.dart';
 import 'package:mobx_project/pages/sfp_page/sfp_page.dart';
 
-// Include generated file
 part 'register_form.g.dart';
 
 class RegisterForm = _RegisterForm with _$RegisterForm;
@@ -18,10 +18,39 @@ abstract class _RegisterForm with Store {
   @observable
   String? selectedDistrict;
 
+  @observable
+  String phoneText = '';
+
+  @observable
+  String emailText = '';
+
+  @observable
+  String sText = '';
+
+  @observable
+  String fText = '';
+
+  @observable
+  String pText = '';
+
   @action
-  void selectedRegAndReset(value) {
+  void selectedRegAndReset(String value) {
     selectedRegion = value;
     selectedDistrict = null;
+  }
+
+  @action
+  void phoneButton(BuildContext context, GlobalKey<FormState> formKey) {
+    if (formKey.currentState?.validate() == true) {
+      isValid = true;
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EmailPage(),
+          ));
+    } else {
+      isValid = false;
+    }
   }
 
   @action
@@ -45,25 +74,14 @@ abstract class _RegisterForm with Store {
   }
 
   @action
-  void onSelectedPopum(String? value) {
+  void onSelectedPopum(String value) {
     selectedDistrict = value;
   }
 
   @action
-  popupButton(BuildContext context) {
-    (selectedRegion != null && selectedDistrict != null)
-        ? () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SfpPage(),
-                ));
-          }
-        : null;
-  }
-
-  @action
-  void emailButton(BuildContext context, GlobalKey<FormState> formKey) {
+  void emailButton(BuildContext context, GlobalKey<FormState> formKey,
+      TextEditingController controller) {
+    emailText = controller.text;
     if (formKey.currentState?.validate() == true) {
       isValid = true;
       Navigator.push(

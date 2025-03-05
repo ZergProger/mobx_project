@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx_project/mobx/register_form.dart';
+import 'package:mobx_project/pages/sfp_page/sfp_page.dart';
 
 class PopupPage extends StatefulWidget {
   PopupPage({super.key, RegisterForm? dataValidation})
@@ -22,60 +23,69 @@ class _PopupPageState extends State<PopupPage>
   @override
   bool get wantKeepAlive => true;
 
-  String? selectedRegion;
-
-  String? selectedDistrict;
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<String> districts =
-        selectedRegion != null ? regions[selectedRegion]! : [];
+    List<String> districts = widget.dataValidation.selectedRegion != null
+        ? regions[widget.dataValidation.selectedRegion]!
+        : [];
     return Scaffold(
-        appBar: AppBar(
-          title: Text('popup menu'),
-        ),
-        body: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              PopupMenuButton(
-                onSelected: (value) {
-                  selectedRegion = widget.dataValidation.selectedRegion;
-                  selectedDistrict = widget.dataValidation.selectedDistrict;
+      appBar: AppBar(
+        title: const Text('popup menu'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SfpPage(),
+                    ));
+              },
+              icon: const Icon(Icons.arrow_forward))
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            PopupMenuButton(
+              onSelected: (value) {
+                setState(() {
                   widget.dataValidation.selectedRegAndReset(value);
-                },
-                itemBuilder: (context) => regions.keys
-                    .map((region) =>
-                        PopupMenuItem(value: region, child: Text(region)))
-                    .toList(),
-                child: ListTile(
-                  title: Text(selectedRegion ?? 'Выберите область'),
-                  trailing: const Icon(Icons.arrow_drop_down),
-                  tileColor: Colors.grey[200],
-                ),
+                });
+              },
+              itemBuilder: (context) => regions.keys
+                  .map((region) =>
+                      PopupMenuItem(value: region, child: Text(region)))
+                  .toList(),
+              child: ListTile(
+                title: Text(
+                    widget.dataValidation.selectedRegion ?? 'Выберите область'),
+                trailing: const Icon(Icons.arrow_drop_down),
+                tileColor: Colors.grey[200],
               ),
-              const SizedBox(
-                height: 1,
+            ),
+            const SizedBox(height: 10),
+            PopupMenuButton(
+              onSelected: (value) {
+                setState(() {
+                  widget.dataValidation.onSelectedPopum(value);
+                });
+              },
+              itemBuilder: (context) => districts
+                  .map((district) =>
+                      PopupMenuItem(value: district, child: Text(district)))
+                  .toList(),
+              child: ListTile(
+                title: Text(
+                    widget.dataValidation.selectedDistrict ?? 'Выберите район'),
+                trailing: const Icon(Icons.arrow_drop_down),
+                tileColor: Colors.grey[200],
               ),
-              PopupMenuButton(
-                onSelected: widget.dataValidation.onSelectedPopum,
-                itemBuilder: (context) => districts
-                    .map((district) =>
-                        PopupMenuItem(value: district, child: Text(district)))
-                    .toList(),
-                child: ListTile(
-                  title: Text(selectedDistrict ?? 'Выберите район'),
-                  trailing: const Icon(Icons.arrow_drop_down),
-                  tileColor: Colors.grey[200],
-                ),
-                enabled: selectedRegion != null,
-              ),
-              ElevatedButton(
-                  onPressed: widget.dataValidation.popupButton(context),
-                  child: Text('submit'))
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

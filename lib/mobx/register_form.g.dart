@@ -57,15 +57,103 @@ mixin _$RegisterForm on _RegisterForm, Store {
     });
   }
 
+  late final _$phoneTextAtom =
+      Atom(name: '_RegisterForm.phoneText', context: context);
+
+  @override
+  String get phoneText {
+    _$phoneTextAtom.reportRead();
+    return super.phoneText;
+  }
+
+  @override
+  set phoneText(String value) {
+    _$phoneTextAtom.reportWrite(value, super.phoneText, () {
+      super.phoneText = value;
+    });
+  }
+
+  late final _$emailTextAtom =
+      Atom(name: '_RegisterForm.emailText', context: context);
+
+  @override
+  String get emailText {
+    _$emailTextAtom.reportRead();
+    return super.emailText;
+  }
+
+  @override
+  set emailText(String value) {
+    _$emailTextAtom.reportWrite(value, super.emailText, () {
+      super.emailText = value;
+    });
+  }
+
+  late final _$sTextAtom = Atom(name: '_RegisterForm.sText', context: context);
+
+  @override
+  String get sText {
+    _$sTextAtom.reportRead();
+    return super.sText;
+  }
+
+  @override
+  set sText(String value) {
+    _$sTextAtom.reportWrite(value, super.sText, () {
+      super.sText = value;
+    });
+  }
+
+  late final _$fTextAtom = Atom(name: '_RegisterForm.fText', context: context);
+
+  @override
+  String get fText {
+    _$fTextAtom.reportRead();
+    return super.fText;
+  }
+
+  @override
+  set fText(String value) {
+    _$fTextAtom.reportWrite(value, super.fText, () {
+      super.fText = value;
+    });
+  }
+
+  late final _$pTextAtom = Atom(name: '_RegisterForm.pText', context: context);
+
+  @override
+  String get pText {
+    _$pTextAtom.reportRead();
+    return super.pText;
+  }
+
+  @override
+  set pText(String value) {
+    _$pTextAtom.reportWrite(value, super.pText, () {
+      super.pText = value;
+    });
+  }
+
   late final _$_RegisterFormActionController =
       ActionController(name: '_RegisterForm', context: context);
 
   @override
-  void selectedRegAndReset(dynamic value) {
+  void selectedRegAndReset(String value) {
     final _$actionInfo = _$_RegisterFormActionController.startAction(
         name: '_RegisterForm.selectedRegAndReset');
     try {
       return super.selectedRegAndReset(value);
+    } finally {
+      _$_RegisterFormActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void phoneButton(BuildContext context, GlobalKey<FormState> formKey) {
+    final _$actionInfo = _$_RegisterFormActionController.startAction(
+        name: '_RegisterForm.phoneButton');
+    try {
+      return super.phoneButton(context, formKey);
     } finally {
       _$_RegisterFormActionController.endAction(_$actionInfo);
     }
@@ -94,7 +182,7 @@ mixin _$RegisterForm on _RegisterForm, Store {
   }
 
   @override
-  void onSelectedPopum(String? value) {
+  void onSelectedPopum(String value) {
     final _$actionInfo = _$_RegisterFormActionController.startAction(
         name: '_RegisterForm.onSelectedPopum');
     try {
@@ -105,22 +193,12 @@ mixin _$RegisterForm on _RegisterForm, Store {
   }
 
   @override
-  dynamic popupButton(BuildContext context) {
-    final _$actionInfo = _$_RegisterFormActionController.startAction(
-        name: '_RegisterForm.popupButton');
-    try {
-      return super.popupButton(context);
-    } finally {
-      _$_RegisterFormActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void emailButton(BuildContext context, GlobalKey<FormState> formKey) {
+  void emailButton(BuildContext context, GlobalKey<FormState> formKey,
+      TextEditingController controller) {
     final _$actionInfo = _$_RegisterFormActionController.startAction(
         name: '_RegisterForm.emailButton');
     try {
-      return super.emailButton(context, formKey);
+      return super.emailButton(context, formKey, controller);
     } finally {
       _$_RegisterFormActionController.endAction(_$actionInfo);
     }
@@ -131,7 +209,12 @@ mixin _$RegisterForm on _RegisterForm, Store {
     return '''
 isValid: ${isValid},
 selectedRegion: ${selectedRegion},
-selectedDistrict: ${selectedDistrict}
+selectedDistrict: ${selectedDistrict},
+phoneText: ${phoneText},
+emailText: ${emailText},
+sText: ${sText},
+fText: ${fText},
+pText: ${pText}
     ''';
   }
 }

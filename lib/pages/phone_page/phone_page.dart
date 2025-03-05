@@ -19,6 +19,7 @@ class _RegPageState extends State<RegPage> with AutomaticKeepAliveClientMixin {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  @override
   bool get wantKeepAlive => true;
 
   @override
@@ -26,7 +27,18 @@ class _RegPageState extends State<RegPage> with AutomaticKeepAliveClientMixin {
     super.build(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('number'),
+        title: const Text('number'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EmailPage(),
+                    ));
+              },
+              icon: Icon(Icons.arrow_forward))
+        ],
       ),
       body: Form(
         key: _formKey,
@@ -63,11 +75,5 @@ class _RegPageState extends State<RegPage> with AutomaticKeepAliveClientMixin {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
   }
 }

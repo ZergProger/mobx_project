@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobx_project/main.dart';
 import 'package:mobx_project/mobx/register_form.dart';
 
 class SfpPage extends StatefulWidget {

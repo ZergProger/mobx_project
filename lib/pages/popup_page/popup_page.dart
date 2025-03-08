@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobx_project/mobx/register_form.dart';
 import 'package:mobx_project/pages/sfp_page/sfp_page.dart';
+import 'package:mobx_project/utils/routes.dart';
 
 class PopupPage extends StatefulWidget {
   PopupPage({super.key, RegisterForm? dataValidation})
@@ -38,7 +39,9 @@ class _PopupPageState extends State<PopupPage>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SfpPage(),
+                      builder: (context) => SfpPage(
+                        dataValidation: dataValidation,
+                      ),
                     ));
               },
               icon: const Icon(Icons.arrow_forward))
@@ -51,6 +54,7 @@ class _PopupPageState extends State<PopupPage>
             PopupMenuButton(
               onSelected: (value) {
                 setState(() {
+                  widget.dataValidation.region = value;
                   widget.dataValidation.selectedRegAndReset(value);
                 });
               },
@@ -69,6 +73,7 @@ class _PopupPageState extends State<PopupPage>
             PopupMenuButton(
               onSelected: (value) {
                 setState(() {
+                  widget.dataValidation.rayon = value;
                   widget.dataValidation.onSelectedPopum(value);
                 });
               },
@@ -82,6 +87,11 @@ class _PopupPageState extends State<PopupPage>
                 trailing: const Icon(Icons.arrow_drop_down),
                 tileColor: Colors.grey[200],
               ),
+            ),
+            ElevatedButton(
+              onPressed: () => widget.dataValidation
+                  .popupButton(context, widget.dataValidation),
+              child: Text('submit'),
             ),
           ],
         ),

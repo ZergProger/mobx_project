@@ -1,1 +1,1 @@
-String route(Type type) => '/$type';
+String route(type) => '/$type';

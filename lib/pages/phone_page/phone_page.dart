@@ -3,10 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_project/mobx/register_form.dart';
 import 'package:mobx_project/pages/email_page/email_page.dart';
+import 'package:mobx_project/utils/routes.dart';
 
 class RegPage extends StatefulWidget {
-  RegPage({super.key, RegisterForm? dataValidation})
-      : dataValidation = dataValidation ?? RegisterForm();
+  const RegPage({
+    super.key,
+    required this.dataValidation,
+  });
 
   final RegisterForm dataValidation;
 
@@ -15,9 +18,15 @@ class RegPage extends StatefulWidget {
 }
 
 class _RegPageState extends State<RegPage> with AutomaticKeepAliveClientMixin {
-  final TextEditingController controller = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late final TextEditingController controllerPhone;
+
+  @override
+  void initState() {
+    controllerPhone =
+        TextEditingController(text: widget.dataValidation.phoneText);
+    super.initState();
+  }
 
   @override
   bool get wantKeepAlive => true;
@@ -34,7 +43,9 @@ class _RegPageState extends State<RegPage> with AutomaticKeepAliveClientMixin {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EmailPage(),
+                      builder: (context) => EmailPage(
+                        dataValidation: widget.dataValidation,
+                      ),
                     ));
               },
               icon: Icon(Icons.arrow_forward))
@@ -46,12 +57,15 @@ class _RegPageState extends State<RegPage> with AutomaticKeepAliveClientMixin {
           children: <Widget>[
             Observer(
               builder: (context) => TextFormField(
-                controller: controller,
+                controller: controllerPhone,
                 validator: widget.dataValidation.validatorPhone,
                 keyboardType: TextInputType.phone,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                 ],
+                onChanged: (value) {
+                  widget.dataValidation.phoneText = controllerPhone.text;
+                },
               ),
             ),
             const SizedBox(
@@ -59,18 +73,10 @@ class _RegPageState extends State<RegPage> with AutomaticKeepAliveClientMixin {
             ),
             ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState?.validate() == true) {
-                    widget.dataValidation.isValid = true;
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EmailPage(),
-                        ));
-                  } else {
-                    widget.dataValidation.isValid = false;
-                  }
+                  dataValidation.phoneButton(
+                      context, _formKey, controllerPhone, dataValidation);
                 },
-                child: Text('submit'))
+                child: Text('submit')),
           ],
         ),
       ),

@@ -39,11 +39,11 @@ class BioPage extends StatelessWidget {
                   ? dataValidation.data.pText
                   : ""),
               Text('город'),
-              Text(dataValidation.data.regionText.isNotEmpty
-                  ? dataValidation.data.regionText
+              Text(dataValidation.data.region.isNotEmpty
+                  ? dataValidation.data.region
                   : "Нет данных"),
-              Text(dataValidation.data.rayonText.isNotEmpty
-                  ? dataValidation.data.rayonText
+              Text(dataValidation.data.rayon.isNotEmpty
+                  ? dataValidation.data.rayon
                   : "Нет данных"),
             ],
           ),

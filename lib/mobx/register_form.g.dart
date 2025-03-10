@@ -168,13 +168,13 @@ mixin _$RegisterForm on _RegisterForm, Store {
   late final _$dataAtom = Atom(name: '_RegisterForm.data', context: context);
 
   @override
-  Load get data {
+  BioModel get data {
     _$dataAtom.reportRead();
     return super.data;
   }
 
   @override
-  set data(Load value) {
+  set data(BioModel value) {
     _$dataAtom.reportWrite(value, super.data, () {
       super.data = value;
     });

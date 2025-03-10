@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mobx_project/data/data_repos/re_write.dart';
+import 'package:mobx_project/data/bio_model.dart';
 import 'package:mobx_project/pages/bio_page/bio_page.dart';
 import 'package:mobx_project/pages/email_page/email_page.dart';
 import 'package:mobx_project/pages/popup_page/popup_page.dart';
@@ -42,7 +42,15 @@ abstract class _RegisterForm with Store {
   String pText = '';
 
   @observable
-  Load data = Load();
+  BioModel data = BioModel(
+    phoneText: '',
+    emailText: '',
+    sText: '',
+    fText: '',
+    pText: '',
+    region: '',
+    rayon: '',
+  );
 
   @action
   void updateData() {
@@ -51,8 +59,8 @@ abstract class _RegisterForm with Store {
     data.sText = sText;
     data.fText = fText;
     data.pText = pText;
-    data.regionText = region;
-    data.rayonText = rayon;
+    data.region = region;
+    data.rayon = rayon;
   }
 
   @action
